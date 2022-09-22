@@ -48,7 +48,7 @@ class QuestionController extends AbstractController
         //$parsedQuestionText = $markdownParser->transformMarkdown($questionText);
 
         // Reading a Parameter in a Controller
-        dump($this->getParameter('cache_adapter'));
+        //dump($this->getParameter('cache_adapter'));
 
         // call service markdownHelper
         $parsedQuestionText = $markdownHelper->parse($questionText);
