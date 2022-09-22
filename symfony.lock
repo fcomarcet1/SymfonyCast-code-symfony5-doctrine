@@ -14,6 +14,12 @@
     "doctrine/lexer": {
         "version": "1.2.0"
     },
+    "knplabs/knp-markdown-bundle": {
+        "version": "1.10.0"
+    },
+    "michelf/php-markdown": {
+        "version": "1.9.1"
+    },
     "monolog/monolog": {
         "version": "2.0.2"
     },
@@ -178,9 +184,6 @@
     "symfony/polyfill-php80": {
         "version": "v1.22.1"
     },
-    "symfony/profiler-pack": {
-        "version": "v1.0.4"
-    },
     "symfony/routing": {
         "version": "4.2",
         "recipe": {
@@ -220,9 +223,6 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
-    },
-    "symfony/twig-pack": {
-        "version": "v1.0.0"
     },
     "symfony/var-dumper": {
         "version": "v5.0.4"
