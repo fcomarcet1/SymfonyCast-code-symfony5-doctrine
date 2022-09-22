@@ -47,6 +47,9 @@ class QuestionController extends AbstractController
         $questionText = 'I\'ve been turned into a cat, any thoughts on how to turn back? While I\'m **adorable**, I don\'t really care for cat food.';
         //$parsedQuestionText = $markdownParser->transformMarkdown($questionText);
 
+        // Reading a Parameter in a Controller
+        dump($this->getParameter('cache_adapter'));
+
         // call service markdownHelper
         $parsedQuestionText = $markdownHelper->parse($questionText);
 
