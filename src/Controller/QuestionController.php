@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Service\MarkdownHelper;
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use Psr\Cache\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
+use Sentry\State\HubInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,15 +15,24 @@ use Twig\Environment;
 
 class QuestionController extends AbstractController
 {
+    private LoggerInterface $logger;
+    private bool $isDebug;
+
+    public function __construct(LoggerInterface $logger, bool $isDebug)
+    {
+        $this->logger = $logger;
+        $this->isDebug = $isDebug;
+    }
+
+
+
     /**
      * @Route("/", name="app_homepage")
      */
-    public function homepage(Environment $twigEnvironment)
-    {
+    public function homepage(Environment $twigEnvironment): Response {
         /*
         // fun example of using the Twig service directly!
         $html = $twigEnvironment->render('question/homepage.html.twig');
-
         return new Response($html);
         */
 
@@ -31,13 +42,18 @@ class QuestionController extends AbstractController
     /**
      * @Route("/questions/{slug}", name="app_question_show")
      * @throws InvalidArgumentException
+     * @throws \Exception
      */
-    public function show(
-        $slug,
-        MarkdownParserInterface $markdownParser,
-        CacheInterface $cache,
-        MarkdownHelper $markdownHelper
-    ): Response {
+    public function show($slug, MarkdownHelper $markdownHelper, HubInterface $sentryHub): Response {
+
+        dump($sentryHub->getClient());
+
+        if ($this->isDebug) {
+            $this->logger->info('We are in debug mode!');
+        }
+
+        //throw new \Exception('bad stuff happened');
+
         $answers = [
             'Make sure your cat is sitting purrrfectly still 🤣',
             'Honestly, I like furry shoes better than MY cat',
