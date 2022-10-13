@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'question')]
 class Question
 {
+    const QUESTION_VOTE_UP = 'up';
+    const QUESTION_VOTE_DOWN = 'down';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,6 +29,14 @@ class Question
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $askedAt = null;
+
+    #[ORM\Column(type:Types::INTEGER)]
+    private int $votes;
+
+    public function __construct()
+    {
+        $this->votes = 0;
+    }
 
     public function getId(): ?int
     {
@@ -76,8 +87,56 @@ class Question
         return $this;
     }
 
+    public function getVotes(): int
+    {
+        return $this->votes;
+    }
+
+    public function setVotes(int $votes): self
+    {
+        $this->votes = $votes;
+        return $this;
+    }
+
+    public function getVotesString(): string
+    {
+        //return $this->votes === 1 ? '1 vote' : sprintf('%d votes', $this->votes);
+        $prefix = $this->getVotes() >=0 ? '+' : '-';
+        return sprintf('%s%d', $prefix, abs($this->getVotes()));
+    }
+
+    public function upVote(): self
+    {
+        $this->votes++;
+        return $this;
+    }
+
+    public function downVote(): self
+    {
+        $this->votes--;
+        return $this;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function voteQuestion(string $direction): self
+    {
+        if ($direction === self::QUESTION_VOTE_UP) {
+            $this->upVote();
+        } elseif ($direction === self::QUESTION_VOTE_DOWN) {
+            $this->downVote();
+        } else {
+            throw new \Exception('Invalid vote!');
+        }
+        return $this;
+    }
+
+
     public function __toString(): string
     {
         return $this->name;
     }
+
+
 }
