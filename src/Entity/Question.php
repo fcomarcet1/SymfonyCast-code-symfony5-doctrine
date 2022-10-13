@@ -12,7 +12,7 @@ class Question
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(Types::INTEGER)]
+    #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::STRING,length: 255)]
@@ -74,5 +74,10 @@ class Question
     {
         $this->askedAt = $askedAt;
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }
