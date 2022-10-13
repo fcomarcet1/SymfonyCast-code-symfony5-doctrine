@@ -46,7 +46,7 @@ class QuestionController extends AbstractController
      */
     public function show($slug, MarkdownHelper $markdownHelper, HubInterface $sentryHub): Response {
 
-        dump($sentryHub->getClient());
+        //dump($sentryHub->getClient());
 
         if ($this->isDebug) {
             $this->logger->info('We are in debug mode!');
