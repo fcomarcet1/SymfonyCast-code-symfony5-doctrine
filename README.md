@@ -1,5 +1,8 @@
 # Tutorials, Friendship & Symfony5
 
+## init from commit 
+Add doctrine orm dependencies: 53bb0f899ddfe7af629d46bb71128f4e6f17b073
+
 Well hi there! This repository holds the code and script
 for the [Symfony5 Tutorials](https://symfonycasts.com/tracks/symfony) on SymfonyCasts.
 
