@@ -18,11 +18,16 @@ use Twig\Environment;
 
 class QuestionController extends AbstractController
 {
-    private LoggerInterface $logger;
-    private bool $isDebug;
+    private LoggerInterface    $logger;
+    private bool               $isDebug;
+    private QuestionRepository $questionRepository;
 
-    public function __construct(LoggerInterface $logger, bool $isDebug)
+    public function __construct(
+        QuestionRepository $questionRepository,
+        LoggerInterface $logger,
+        bool $isDebug)
     {
+        $this->questionRepository = $questionRepository;
         $this->logger = $logger;
         $this->isDebug = $isDebug;
     }
@@ -45,7 +50,7 @@ class QuestionController extends AbstractController
      * @throws \Exception
      */
     #[Route('/questions/new', name: 'app_question_new')]
-    public function new(EntityManagerInterface $entityManager): Response
+    public function new(): Response
     {
         $question = new Question();
         $question->setName('Missing pants')
@@ -65,8 +70,9 @@ class QuestionController extends AbstractController
         if (rand(1, 10) > 2) {
             $question->setAskedAt(new \DateTime(sprintf('-%d days', rand(1, 100))));
         }
-        $entityManager->persist($question);
-        $entityManager->flush();
+
+        // save contains persist and flush
+        $this->questionRepository->save($question, true);
 
         return new Response(sprintf(
             'Well hallo! The shiny new question is id #%d, slug: %s',
