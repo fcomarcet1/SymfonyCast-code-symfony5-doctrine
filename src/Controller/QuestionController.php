@@ -90,17 +90,8 @@ class QuestionController extends AbstractController
      * @throws \Exception
      */
     #[Route('/questions/{slug}', name: 'app_question_show')]
-    public function show(
-        string $slug,
-        QuestionRepository $questionRepository,
-        MarkdownHelper $markdownHelper,
-    ): Response {
+    public function show(string $slug, QuestionRepository $questionRepository, MarkdownHelper $markdownHelper,): Response {
 
-        //dump($sentryHub->getClient());
-
-        if ($this->isDebug) {
-            $this->logger->info('We are in debug mode!');
-        }
 
         $question = $questionRepository->findOneBy([
             'slug' => $slug
@@ -136,5 +127,20 @@ class QuestionController extends AbstractController
         ]);*/
     }
 
-
+    /**
+     * @throws \Exception
+     */
+    #[Route('/questions_auto_query/{slug}', name: 'app_question_auto_query_show')]
+    public function showAutoQuery(Question $question): Response
+    {
+        $answers = [
+            'Make sure your cat is sitting `purrrfectly` still ?',
+            'Honestly, I like furry shoes better than MY cat',
+            'Maybe... try saying the spell backwards?',
+        ];
+        return $this->render('question/show.html.twig', [
+            'question' => $question,
+            'answers' => $answers,
+        ]);
+    }
 }
