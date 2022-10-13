@@ -43,7 +43,11 @@ class QuestionController extends AbstractController
         return new Response($html);
         */
 
-        return $this->render('question/homepage.html.twig');
+        // $questions = $this->questionRepository->findBy([], ['askedAt' => 'DESC']);
+        return $this->render('question/homepage.html.twig', [
+            //'questions' => $this->questionRepository->findBy([], ['askedAt' => 'DESC']),
+            'questions' => $this->questionRepository->findAllAskedOrderedByNewest(),
+        ]);
     }
 
     /**
