@@ -5,11 +5,15 @@ namespace App\Entity;
 use App\Repository\QuestionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 #[ORM\Table(name: 'question')]
 class Question
 {
+    use TimestampableEntity;
+
     const QUESTION_VOTE_UP = 'up';
     const QUESTION_VOTE_DOWN = 'down';
 
@@ -22,6 +26,7 @@ class Question
     private ?string $name = null;
 
     #[ORM\Column(type: Types::STRING,length: 100, unique: true)]
+    #[Gedmo\Slug(fields: ['name'])]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -102,7 +107,7 @@ class Question
     {
         //return $this->votes === 1 ? '1 vote' : sprintf('%d votes', $this->votes);
         $prefix = $this->getVotes() >=0 ? '+' : '-';
-        return sprintf('%s%d', $prefix, abs($this->getVotes()));
+        return sprintf('%s%d: ', $prefix, abs($this->getVotes()));
     }
 
     public function upVote(): self

@@ -21,10 +21,17 @@
                         <div class="row">
                             <div class="col-2 text-center">
                                 <img src="{{ asset('images/tisha.png') }}" width="100" height="100"  alt="Tisha avatar">
-                                <div class="d-block mt-3 vote-arrows">
-                                    <a class="vote-up" href="#"><i class="far fa-arrow-alt-circle-up"></i></a>
-                                    <a class="vote-down" href="#"><i class="far fa-arrow-alt-circle-down"></i></a>
-                                </div>
+                                <form action="{{ path('app_question_vote', { slug: question.slug }) }}" method="POST">
+                                    <div class="vote-arrows flex-fill pt-2 js-vote-arrows" style="min-width: 90px;">
+                                        <button class="vote-up btn btn-success" name="direction" value="up">
+                                            <i class="far fa-arrow-alt-circle-up"></i>
+                                        </button>
+                                        <button class="vote-down btn btn-danger" name="direction" value="down">
+                                            <i class="far fa-arrow-alt-circle-down"></i>
+                                        </button>
+                                        <span>{{ question.votesString }}Votes</span>
+                                    </div>
+                                </form>
                             </div>
                             <div class="col">
                                 <a class="q-title" href="{{ path('app_question_show', { slug: question.slug }) }}"><h2>{{ question.name }}</h2></a>

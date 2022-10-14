@@ -38,13 +38,14 @@ final class QuestionFactory extends ModelFactory
     {
         return [
             'name' => self::faker()->realText(50),
-            'question' => self::faker()->paragraphs(
-                self::faker()->numberBetween(1, 4),
-                true
-            ),
-            'askedAt' => self::faker()->dateTimeBetween('-100 days', '-1 minute'),
+            'question' => self::faker()->paragraphs(self::faker()->numberBetween(1, 4), true),
+            'slug' => self::faker()->slug(),
+            //'askedAt' => self::faker()->dateTimeBetween('-100 days', '-1 minute'),
+            'askedAt' => rand(1, 10) > 2
+                ? self::faker()->dateTimeBetween('-100 days', '-1 minute')
+                : null,
             'votes' => rand(-20, 50),
-        ];
+            ];
     }
 
     protected function initialize(): self
